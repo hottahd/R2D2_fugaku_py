@@ -53,7 +53,7 @@ for n in range(n0,nd+1):
     ##############################
     # read time
     f = open(dir+"time/t.dac."+'{0:08d}'.format(n),"rb")
-    t = np.fromfile(f,endian+'d',1)
+    t = np.fromfile(f,endian+'f',1)
     f.close()    
     t = np.reshape(t,(1),order="F")
     

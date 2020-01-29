@@ -57,28 +57,29 @@ def read_init(dir,dimension):
     endian = c.p["endian"]
     dtyp=np.dtype([ \
                     ("head",endian+"i"),\
-                    ("x",endian+str(ixg)+"d"),\
-                    ("y",endian+str(jxg)+"d"),\
-                    ("z",endian+str(kxg)+"d"),\
-                    ("ro0",endian+str(ixg)+"d"),\
-                    ("te0",endian+str(ixg)+"d"),\
-                    ("pr0",endian+str(ixg)+"d"),\
-                    ("en0",endian+str(ixg)+"d"),\
-                    ("dprdro",endian+str(ixg)+"d"),\
-                    ("dprdse",endian+str(ixg)+"d"),\
-                    ("dtedro",endian+str(ixg)+"d"),\
-                    ("dtedse",endian+str(ixg)+"d"),\
-                    ("dendro",endian+str(ixg)+"d"),\
-                    ("dendse",endian+str(ixg)+"d"),\
-                    ("gx",endian+str(ixg)+"d"),\
-                    ("xi",endian+str(ixg)+"d"),\
-                    ("fa",endian+str(ixg)+"d"),\
+                    ("x",endian+str(ixg)+"f"),\
+                    ("y",endian+str(jxg)+"f"),\
+                    ("z",endian+str(kxg)+"f"),\
+                    ("ro0",endian+str(ixg)+"f"),\
+                    ("te0",endian+str(ixg)+"f"),\
+                    ("pr0",endian+str(ixg)+"f"),\
+                    ("en0",endian+str(ixg)+"f"),\
+                    ("dprdro",endian+str(ixg)+"f"),\
+                    ("dprdse",endian+str(ixg)+"f"),\
+                    ("dtedro",endian+str(ixg)+"f"),\
+                    ("dtedse",endian+str(ixg)+"f"),\
+                    ("dendro",endian+str(ixg)+"f"),\
+                    ("dendse",endian+str(ixg)+"f"),\
+                    ("gx",endian+str(ixg)+"f"),\
+                    ("xi",endian+str(ixg)+"f"),\
+                    ("fa",endian+str(ixg)+"f"),\
                     ("tail",endian+"i")\
     ])
     f = open(dir+"back.dac",'rb')
     back = np.fromfile(f,dtype=dtyp,count=1)
     f.close()
 
+    
     for key in back.dtype.names:
         if back[key].size == ixg:
             c.p[key] = back[key].reshape((ixg),order="F")[marginx:ixg-marginx]
@@ -180,7 +181,7 @@ def read_qq_original(dir,n):
         print('memory is newly allocated')
         c.q["qq"] = np.zeros((mtype,ix,jx,kx))
 
-    dtyp = np.dtype([('qq',endian+str(mtype*nxg*nyg*nzg)+"d")])
+    dtyp = np.dtype([('qq',endian+str(mtype*nxg*nyg*nzg)+"f")])
     
     for np0 in range(0,npe):
         f = open(dir+'qq/qq.dac.'+'{0:08d}'.format(n)+"."+'{0:08d}'.format(np0),'rb')
@@ -198,7 +199,7 @@ def read_time(dir,n):
     import numpy as np
     import config as c
     f = open(dir+"time/t.dac."+'{0:08d}'.format(n),"rb")
-    t = np.fromfile(f,c.p['endian']+'d',1)
+    t = np.fromfile(f,c.p['endian']+'f',1)
     f.close()    
     t = np.reshape(t,(1),order="F")[0]
 
